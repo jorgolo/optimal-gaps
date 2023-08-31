@@ -6,8 +6,7 @@ const elements = document.querySelectorAll('.element');
 const options = {
   container,
   elements,
-  // breakpointStart: 680,
-  ratio: 0.2,
+  offset: 100,
 };
 
 new OptimalGaps(options);

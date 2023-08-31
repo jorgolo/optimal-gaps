@@ -1,23 +1,34 @@
 export default class OptimalGaps {
 
+  // Needs to be specified on constructor
   $container = null;
   $elements = null;
+  offset = null;
+
+  // optional
   breakpointStart = null;
   containerClass = 'js-has-scroll';
   minimunGap = 10;
   cssCustomProperty = '--optimal-gap';
-  ratio = 0.7;
+  minViewportWidth = 360;
+
+  // calculated
+  maximumGap = null;
+  maxViewportWidth = null;
+  firstCalculation = true;
 
 
   constructor(options) {
     this.$container = options.container; // Node
     this.$elements = options.elements; // Array
+    this.offset = options.offset; // Int
 
-    this.breakpointStart = options.breakpointStart; // Int
+    this.breakpointStart = options.breakpointStart ? options.breakpointStart : this.breakpointStart; // Int
     this.containerClass = options.containerClass ? options.containerClass : this.containerClass; // string
     this.minimunGap = options.minimunGap ? options.minimunGap : this.minimunGap; // Int
+    this.maximumGap = options.maximumGap ? options.maximumGap : this.maximumGap; // Int
+    this.minViewportWidth = options.minViewportWidth ? options.minViewportWidth : this.minViewportWidth; // Int
     this.cssCustomProperty = options.cssCustomProperty ? options.cssCustomProperty : this.cssCustomProperty; // String
-    this.ratio = options.ratio ? options.ratio : this.ratio; // float between 1 and 0
 
     if (this.$container == null || this.$elements == null) {
       return;
@@ -28,80 +39,112 @@ export default class OptimalGaps {
   }
 
   startCalculations() {
+    // if a breakpointStart is set, then we start the calculation starting from the value of breakpointStart
     if ( this.breakpointStart != null && window.visualViewport.width > this.breakpointStart) { return; }
 
     this.addClassToWrapper();
-    this.setMinGapsForResponsive();
+    this.setOptimalGaps();
   }
 
   createResizeObserver() {
-    // declaramos el observador, y lo que hara
     const resizeObserver = new window.ResizeObserver(() => {
+      // Function call for start calculations
       this.startCalculations();
     });
 
-    // inicializamos el observador para que "vea" el resize de solo el elemento que queremos.
+    // Initialization of observer
     resizeObserver.observe(this.$container);
   }
 
   addClassToWrapper() {
-    // Funcion para que añada una clase al wrapper una vez que este tenga una barra horizontal
+    // We add a class to the element container when horizontal scrollbar appears
 
-    // Quitamos la clase primero, para que se calcule todo en su "Estado normal"
+    // First we remove the class and style propertie so the elements goes back to "Normal" state
     this.$container.classList.remove(this.containerClass);
     this.$container.style.removeProperty(this.cssCustomProperty);
 
-    // hacemos el chequeo de si tiene barra horizontal
+    // Check for horizontal scrollbar
     const hasHorizontalScrollbar = (this.$container.scrollWidth > this.$container.clientWidth);
 
-    // Si es que no se tiene barra horizontal, ya no hacemos nada.
-    if (hasHorizontalScrollbar === false) {
-      return;
-    }
+    // if we don´t have scrollbar we don´t do anything
+    if (hasHorizontalScrollbar === false) { return; }
 
-    // añadimos la clase en caso de tener barra horizontal
+    // if a scrollbar is present we add the class
     this.$container.classList.add(this.containerClass);
   }
 
-  setMinGapsForResponsive() {
-    // si no tenemos la clase, no hacemos nada
+  setOptimalGaps() {
+    // we only star calculation the optimal gaps if we have our "containerClass"
     if (this.$container.classList.contains(this.containerClass) === false) {
       return;
     }
 
-    // si no tenemos los botones no hacemos nada
-    if (this.$elements.length < 1) {
-      return;
-    }
+    // if we don´t have any elements node, we don´t do anything
+    if (this.$elements.length < 1) { return; }
 
-    // Obtenemos el ancho del contenedor con overflow
+    // We get the width of our contaner
     const containerWidth = this.$container.getBoundingClientRect().width;
 
-    // obtenemos la suma de todos los anchos del widt
+    // we get the additon of al elements widths
     let buttonsTotalWidth = 0;
     this.$elements.forEach(($tabButton) => {
       buttonsTotalWidth += $tabButton.getBoundingClientRect().width;
     });
 
-    // Obtenemos el espacio sobrante entre el contenedor y la suma de ls botones
+    // We get the whole remain space on the container
     const remainSpace = containerWidth - buttonsTotalWidth;
-    // calculamos el tamaño optimo obteneiendo el espacio restante dividido entre la cantidad de espacios entre elementos
-    let optimalGap = (remainSpace / (this.$elements.length - 1));
 
-    // añadimos un ratio de separacion
-    optimalGap = optimalGap * (2 - this.ratio);
+    // we calculate the gaps
+    const gapsCount = this.$elements.length - 1;
 
-    // rendondeamos hacia arriba
+    // We calculate the optimal gaps between elements
+    let optimalGap = (remainSpace / gapsCount);
+
+    // we round up
     optimalGap = window.Math.ceil(optimalGap);
 
-    // Si llegamos al tamaño minimo de separacion, ya no hacemos nada
-    if (optimalGap < this.minimunGap) {
-      this.$container.style.setProperty(this.cssCustomProperty, `${this.minimunGap}px`);
-      return;
+    // we add the offset
+    optimalGap += (this.offset / gapsCount);
+
+    // When we calculated for the first time we set our max values needed for the gradual calculation
+    if (this.firstCalculation) {
+      this.firstCalculation = false;
+      this.maximumGap = optimalGap;
+      this.maxViewportWidth = window.visualViewport.width;
     }
 
-    // Ponemos la propiedad en el noodo
+    // we call the gradual calculation gaps
+    optimalGap = this.gradualValueCalculation();
+
+    // We set the style on our container
     this.$container.style.setProperty(this.cssCustomProperty, `${optimalGap}px`);
+  }
+
+  gradualValueCalculation() {
+
+    // We need this so we can do calculations
+    if (this.maxViewportWidth == null) { return; }
+    if (this.maximumGap == null) { return; }
+
+    // We get the width of visualViewport
+    const viewportWidth = window.visualViewport.width;
+
+    // return the maximumGap on bigger view ports
+    if (viewportWidth >= this.maxViewportWidth) {
+      return this.maximumGap;
+    }
+    
+    // return the minimunGap on smaller view ports
+    if (viewportWidth <= this.minViewportWidth) {
+      return this.minimunGap;
+    }
+  
+    // Gradual calculation based on max and min gaps and viewport
+    const viewportRange = this.maxViewportWidth - this.minViewportWidth;
+    const valuesRagne = this.maximumGap - this.minimunGap;
+    
+    const gradualValue = this.minimunGap + ((viewportWidth - this.minViewportWidth) / viewportRange) * valuesRagne;
+    return gradualValue;
   }
 
 }
