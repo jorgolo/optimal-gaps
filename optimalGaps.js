@@ -1,38 +1,28 @@
 export default class OptimalGaps {
 
-  // Needs to be specified on constructor
-  $container = null;
-  $elements = null;
-  offset = null;
-
-  // optional
-  breakpointStart = null;
-  containerClass = 'js-has-scroll';
-  minimunGap = 10;
-  cssCustomProperty = '--optimal-gap';
-  minViewportWidth = 360;
-
-  // calculated
-  maximumGap = null;
-  maxViewportWidth = null;
-  firstCalculation = true;
-
-
   constructor(options) {
+    // valures required
     this.$container = options.container; // Node
     this.$elements = options.elements; // Array
     this.offset = options.offset; // Int
 
-    this.breakpointStart = options.breakpointStart ? options.breakpointStart : this.breakpointStart; // Int
-    this.containerClass = options.containerClass ? options.containerClass : this.containerClass; // string
-    this.minimunGap = options.minimunGap ? options.minimunGap : this.minimunGap; // Int
-    this.maximumGap = options.maximumGap ? options.maximumGap : this.maximumGap; // Int
-    this.minViewportWidth = options.minViewportWidth ? options.minViewportWidth : this.minViewportWidth; // Int
-    this.cssCustomProperty = options.cssCustomProperty ? options.cssCustomProperty : this.cssCustomProperty; // String
-
-    if (this.$container == null || this.$elements == null) {
+    if (this.$container == null || this.$elements == null || this.offset == null) {
+      console.warn('A required value is missing');
       return;
     }
+
+    // optional
+    this.breakpointStart = options.breakpointStart ?? null; // Int
+    this.containerClass = options.containerClass ?? 'js-has-scroll'; // string
+    this.minimunGap = options.minimunGap ?? 10; // Int
+    this.minViewportWidth = options.minViewportWidth ?? 360; // Int
+    this.cssCustomProperty = options.cssCustomProperty ?? '--optimal-gap'; // String
+
+    // calculated
+    this.maximumGap = null;
+    this.maxViewportWidth = null;
+    this.firstCalculation = true;
+
 
     this.startCalculations();
     this.createResizeObserver();
@@ -114,13 +104,13 @@ export default class OptimalGaps {
     }
 
     // we call the gradual calculation gaps
-    optimalGap = this.gradualValueCalculation();
+    optimalGap = this.gapCalculation();
 
     // We set the style on our container
     this.$container.style.setProperty(this.cssCustomProperty, `${optimalGap}px`);
   }
 
-  gradualValueCalculation() {
+  gapCalculation() {
 
     // We need this so we can do calculations
     if (this.maxViewportWidth == null) { return; }
@@ -144,7 +134,7 @@ export default class OptimalGaps {
     const valuesRagne = this.maximumGap - this.minimunGap;
     
     const gradualValue = this.minimunGap + ((viewportWidth - this.minViewportWidth) / viewportRange) * valuesRagne;
-    return gradualValue;
+    return parseFloat(gradualValue.toFixed(4));
   }
 
 }
