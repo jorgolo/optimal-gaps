@@ -25,7 +25,7 @@
     }
 
     .element {
-      --gaps: var(--optimal-gap, 20px);
+      --gaps: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -49,6 +49,10 @@
 
       background: #4e4949;
       color: white;
+    }
+
+    .js-has-scroll .element {
+      --gaps: var(--optimal-gap);
     }
   </style>
 </head>
