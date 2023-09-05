@@ -4,57 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Optimal Gaps</title>
-  <style>
-    * {
-      box-sizing: content-box;
-    }
-    body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin: 0;
-    }
-    .container {
-      display: flex;
-      list-style: none;
-      padding: 0 20px;
-      /* padding: 0; */
-      margin: 0;
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
 
-    .element {
-      --gaps: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      height: 220px;
-      padding: 0 20px;
-      margin-right: var(--gaps);
-      border: 1px solid black;
-      background-color: tomato;
-      color: white;
-      font-size: 20px;
-      font-weight: 700;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    .example {
-      padding: 30px;
-
-      background: #4e4949;
-      color: white;
-    }
-
-    .js-has-scroll .element {
-      --gaps: var(--optimal-gap);
-    }
-  </style>
+  <link rel="stylesheet" href="optimalGaps.css">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
 
@@ -62,13 +14,15 @@
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
   </div>
   
-  <ul class="container">
-    <li class="element">Hola</li>
-    <li class="element">Buenas tardes tengan</li>
-    <li class="element">Esto</li>
-    <li class="element">Es</li>
-    <li class="element">Una Pru</li>
-  </ul>
+  <div class="container optimal-gaps-container">
+    <ul class="container-inner optimal-gaps-container-inner">
+      <li class="element optimal-gaps-element">Hola</li>
+      <li class="element optimal-gaps-element">Buenas tardes tengan</li>
+      <li class="element optimal-gaps-element">Esto</li>
+      <li class="element optimal-gaps-element">Es</li>
+      <li class="element optimal-gaps-element">Una Pru</li>
+    </ul>
+  </div>
 
   <div class="example">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
