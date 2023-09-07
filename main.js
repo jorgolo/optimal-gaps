@@ -6,10 +6,10 @@ const elements = document.querySelectorAll('.element');
 const options = {
   container,
   elements,
-  offset: 100,
+  offset: '30%',
   initialGap: 20,
   minimunGap: 15,
-  sidePaddings: 15,
+  sidePaddings: 20,
   minViewportWidth: 400,
 };
 
