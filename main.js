@@ -14,3 +14,20 @@ const options = {
 };
 
 new OptimalGaps(options);
+
+// -----------------
+
+const container2 = document.querySelector('.container-2');
+const elements2 = document.querySelectorAll('.element-2');
+
+const options2 = {
+  container: container2,
+  elements: elements2,
+  offset: '30%',
+  initialGap: 35,
+  minimunGap: 15,
+  sidePaddings: 30,
+  minViewportWidth: 360,
+};
+
+new OptimalGaps(options2);

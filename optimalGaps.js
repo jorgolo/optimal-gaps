@@ -59,7 +59,8 @@ export default class OptimalGaps {
 
   isContainerWithScrollbar() {
     // check for the scroll bar in the container element
-    return (this.$container.scrollWidth > this.$container.clientWidth);
+    // return (this.$container.scrollWidth > this.$container.clientWidth);
+    return this.$container.clientWidth < this.$container.children[0].getBoundingClientRect().width;
   }
 
   elementsWidthSum() {

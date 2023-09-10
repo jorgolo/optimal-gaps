@@ -51,3 +51,53 @@ body {
 .container.js-has-scroll + .tab-container {
   width: 100%;
 }
+
+.container-2 {
+  width: calc(100% - 40px);
+  max-width: 1024px;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
+  margin-bottom: 30px;
+}
+
+.container-inner-2 {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.element-2 {
+  height: 40px;
+  line-height: 40px;
+}
+
+.element-2.active {
+  border-bottom: 6px solid black;
+}
+
+.tab-container-2 {
+  width: calc(100% - 40px);
+  max-width: 1024px;
+  color: white;
+  margin: 0 auto;
+}
+
+.container-2.js-has-scroll {
+  width: 100%;
+  border-bottom: 0;
+
+}
+
+.container-2.js-has-scroll .container-inner-2 {
+  position: relative;
+  padding: 0 var(--side-paddings);
+  &::before {
+    content: "";
+    position: absolute;
+    left: var(--side-paddings);
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: black;
+  }
+}
