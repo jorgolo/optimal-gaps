@@ -1,4 +1,4 @@
-import OptimalGaps from "./optimalGaps.js";
+import OptimalGaps from "../optimalGaps.min.js";
 
 const container = document.querySelector('.container');
 const elements = document.querySelectorAll('.element');
