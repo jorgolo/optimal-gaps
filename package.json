@@ -1,12 +1,15 @@
 {
-  "name": "OptimalGaps",
-  "version": "1.0.0",
+  "name": "optimal-gaps",
+  "version": "1.0.1",
   "description": "Calculation of optimal gaps between elements on resize",
   "main": "index.js",
   "repository": "https://github.com/jorgolo/optimal-gaps.git",
   "author": "Jorge rodriguez <jorge.mauricio.r.55@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "uglify-js": "3.17.4"
+    "babel-minify": "^0.5.2"
+  },
+  "dependencies": {
+    "optimal-gaps": "^1.0.1"
   }
 }
