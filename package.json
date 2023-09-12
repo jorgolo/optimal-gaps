@@ -1,6 +1,6 @@
 {
   "name": "optimal-gaps",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Calculation of optimal gaps between elements on resize",
   "main": "optimalGaps.js",
   "exports": {
