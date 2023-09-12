@@ -2,7 +2,11 @@
   "name": "optimal-gaps",
   "version": "1.0.2",
   "description": "Calculation of optimal gaps between elements on resize",
-  "main": "index.js",
+  "main": "optimalGaps.js",
+  "exports": {
+    "./js/optimal-gaps.min": "./optimalGaps.min.js",
+    "./css/optimal-gaps": "./optimalGaps.css"
+  },
   "repository": "https://github.com/jorgolo/optimal-gaps.git",
   "author": "Jorge rodriguez <jorge.mauricio.r.55@gmail.com>",
   "license": "MIT",
