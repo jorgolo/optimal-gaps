@@ -934,11 +934,6 @@ object.getownpropertydescriptors@^2.1.6:
     es-abstract "^1.22.1"
     safe-array-concat "^1.0.0"
 
-optimal-gaps@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/optimal-gaps/-/optimal-gaps-1.0.1.tgz#7df202463166b987df073c480be5d6050554e6f0"
-  integrity sha512-oMZYnlAEZXNYNrImOEg9IIrmjfl56m0ss3j/TcJ+8XuOps1cEKxnDplTFawkceBDfVSzFFCvEO3K+x8stb/c8g==
-
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
