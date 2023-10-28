@@ -9,39 +9,185 @@
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
+  <div class="row">
+    <h1>Optimal gaps</h1>
 
-  <div class="example">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
-  </div>
+    <p>
+      Pequeño script para obtener los espaciados optimos entre elementos para cuando la ventana cambia de tamaño y que el ultimo elemento rebase el viewport para que la barra de desplazamiento este justificada y tenga sentido
+    </p>
 
-  <div class="container optimal-gaps-container">
-    <ul class="container-inner optimal-gaps-container-inner">
-      <li class="element optimal-gaps-element active">Hola</li>
-      <li class="element optimal-gaps-element">Buenas tardes tengan Buenas tardes tengan  tardes tengan Buenas</li>
-      <li class="element optimal-gaps-element">Esto</li>
-      <li class="element optimal-gaps-element">Es</li>
-      <li class="element optimal-gaps-element">Una Pru</li>
-    </ul>
-  </div>
+    <p>
+      Los espaciados son calculados para que el ultimo elemento este rebasado, ya sea dando pixeles o el porcentaje en la opción llamada "offset"
+    </p>
 
-  <div class="example tab-container">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    <p>
+      Los espaciados se encojeran con un calculo linear dese el punto en el que aparece la barra de desplazamiento y hasta el punto de la opcion "minViewportWidth". Este calculo linear es usado en <a href="https://css-tricks.com/snippets/css/fluid-typography/" target="_blank">este articulo de tipografia fluida</a>
+    </p>
+
+    <p>Como usarlo:</p>
+
+    <pre>
+      <code>
+        import OptimalGaps from "optimalGaps.min.js";
+
+        const container = document.querySelector('.container');
+        const elements = document.querySelectorAll('.element');
+
+        const options = {
+          container,
+          elements,
+          offset: '30%',
+          initialGap: 20,
+        };
+
+        new OptimalGaps(options);
+      </code>
+    </pre>
+
+    <h2>Parametros</h2>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Parametros</th>
+            <th>Requerido</th>
+            <th>Tipos &amp; valores aceptados</th>
+            <th>Default</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>container</td>
+            <td style="text-align:center">Si</td>
+            <td style="text-align:right">[DOMNode] -</td>
+            <td style="text-align:right">null</td>
+            <td>El contenedor que tiene la propiedad de CSS overflow</td>
+          </tr>
+          <tr>
+            <td>elements</td>
+            <td style="text-align:center">Si</td>
+            <td style="text-align:right">[NodeList] -</td>
+            <td style="text-align:right">null</td>
+            <td>La lista de elementos donde se calcularan los espacios</td>
+          </tr>
+          <tr>
+            <td>offset</td>
+            <td style="text-align:center">Si</td>
+            <td style="text-align:right">[String] &#39;100px&#39; or &#39;10%&#39;</td>
+            <td style="text-align:right">null</td>
+            <td>La cantidad del ultimo elemento que se rebasara la vantana</td>
+          </tr>
+          <tr>
+            <td>initialGap</td>
+            <td style="text-align:center">Yes</td>
+            <td style="text-align:right">[Int] -</td>
+            <td style="text-align:right">null</td>
+            <td>Los espaciados que tendran sin iniciar el calculo</td>
+          </tr>
+          <tr>
+            <td>breakpointStart</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[Int] -</td>
+            <td style="text-align:right">null</td>
+            <td>Si se pone está opcion, los calculos iniciaran a partir de este punto en el viewport</td>
+          </tr>
+          <tr>
+            <td>containerClass</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[String] -</td>
+            <td style="text-align:right">&#39;js-has-scroll&#39;</td>
+            <td>The class that will be added to the contianer when the gap is calculated</td>
+          </tr>
+          <tr>
+            <td>minimunGap</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[Int] -</td>
+            <td style="text-align:right">10</td>
+            <td>The minimun gap that will be set on the calculations</td>
+          </tr>
+          <tr>
+            <td>minViewportWidth</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[Int] -</td>
+            <td style="text-align:right">360</td>
+            <td>The size of the viewport when the calculation will stop and the minimun gap will set</td>
+          </tr>
+          <tr>
+            <td>cssCustomProperty</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[String] -</td>
+            <td style="text-align:right">&#39;--optimal-gap&#39;</td>
+            <td>The CSS custom property that will be set on the container that has the calculated gap</td>
+          </tr>
+          <tr>
+            <td>sidePaddings</td>
+            <td style="text-align:center">No</td>
+            <td style="text-align:right">[Int] -</td>
+            <td style="text-align:right">0</td>
+            <td>The amount of padding in pixels that will be set in the container element with a CSS custom property:
+              &#39;--side-paddings&#39;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
   </div>
 
   <hr>
 
+  <div class="row">
+    <h2>Ejemplos</h2>
+    <p>Puedes editar el texto dentro de las pestañas para cambiar el ancho de las columnas</p>
+  </div>
+
+  <div class="row">
+    <h3>Ejemplo 1</h3>
+  </div>
+
+  <div class="container optimal-gaps-container">
+    <ul class="container-inner optimal-gaps-container-inner">
+      <li class="element optimal-gaps-element active" contenteditable>Inicio</li>
+      <li class="element optimal-gaps-element" contenteditable>Configuraciones</li>
+      <li class="element optimal-gaps-element" contenteditable>Colores</li>
+      <li class="element optimal-gaps-element" contenteditable>Historial de archivos</li>
+      <li class="element optimal-gaps-element" contenteditable>Notas</li>
+    </ul>
+  </div>
+
+  <div class="example tab-container">
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    </p>
+  </div>
+
+  <div class="row">
+    <h3>Ejemplo 2</h>
+  </div>
+
   <div class="container-2 optimal-gaps-container">
     <ul class="container-inner-2 optimal-gaps-container-inner">
-      <li class="element-2 optimal-gaps-element active">Hola</li>
-      <li class="element-2 optimal-gaps-element">Buenas tardes tengan Buenas tardes tengan  tardes tengan Buenas</li>
-      <li class="element-2 optimal-gaps-element">Esto</li>
-      <li class="element-2 optimal-gaps-element">Es</li>
-      <li class="element-2 optimal-gaps-element">Una Pru</li>
+      <li class="element-2 optimal-gaps-element active" contenteditable>Dashboard</li>
+      <li class="element-2 optimal-gaps-element" contenteditable>Graficas y desempeño</li>
+      <li class="element-2 optimal-gaps-element" contenteditable>Estados de cuenta</li>
+      <li class="element-2 optimal-gaps-element" contenteditable>Balance general</li>
+      <li class="element-2 optimal-gaps-element" contenteditable>Estadisticas del mes</li>
     </ul>
   </div>
 
   <div class="example tab-container-2">
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    </p>
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, ullam esse? Dolor eius sequi deserunt eaque incidunt nostrum. Deleniti explicabo aliquam harum aperiam dolorem est nesciunt nobis dignissimos consequuntur inventore.
+    </p>
   </div>
 
   <script src="../optimalGaps.js" type="module"></script>
